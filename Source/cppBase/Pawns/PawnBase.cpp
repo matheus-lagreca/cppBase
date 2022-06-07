@@ -37,13 +37,19 @@ void APawnBase::BeginPlay()
 void APawnBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if(!MovementDirection.IsZero())
+	{
+		const FVector NewLocation = GetActorLocation() + (MovementDirection * DeltaTime * MovementSpeed);
+		SetActorLocation(NewLocation);
+	}
 }
 
 // Called to bind functionality to input
 void APawnBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	InputComponent->BindAxis(TEXT("MoveForward"),this, &APawnBase::MoveForward);
+	InputComponent->BindAxis(TEXT("MoveRight"),this, &APawnBase::MoveRight);
 
 }
 
@@ -56,6 +62,18 @@ int32 APawnBase::SumCallable(int32 aValue, int32 bValue)
 {
 	return aValue + bValue;
 }
+
+// Movement,
+void APawnBase::MoveForward(float Value)
+{
+	MovementDirection.X = FMath::Clamp(Value, -1.0f, 1.0f);
+}
+
+void APawnBase::MoveRight(float Value)
+{
+	MovementDirection.Y = FMath::Clamp(Value,-1.0f, 1.0f);
+}
+
 
 /* Logs
  types [

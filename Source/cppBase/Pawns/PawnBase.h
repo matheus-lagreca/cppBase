@@ -56,8 +56,6 @@ public:
 	void ImplementableEventVoid();
 	UFUNCTION(BlueprintImplementableEvent)
 	bool ImplementableEventBool();
-	
-	
 
 protected:
 	// private but extended classes can modify
@@ -102,5 +100,13 @@ private:
 	// has execution pins and target
 	UFUNCTION(BlueprintCallable)
 	int32 SumCallable(int32 aValue, int32 bValue);
-	
+
+
+	// basic Movement
+	FVector MovementDirection;
+	UPROPERTY(EditAnywhere, Category="Movement")
+	float MovementSpeed = 500.0f;
+
+	void MoveForward(float Value);
+	void MoveRight(float Value);
 };
